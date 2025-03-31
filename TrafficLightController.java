@@ -1,89 +1,128 @@
 public class TrafficLightController
 {
-    TrafficLight[] lights = new TrafficLight[8];
-    public String trafficLevel;
+    TrafficLight[][] lights = new TrafficLight[4][2];
+    private int[][] lightTimers = new int[4][2];
+    private int[][] trafficSensors = new int[4][2];
+
+    int greenLightTime;
+    int redLightTime;
+    int yellowLightTime;
+
+    String trafficLevel;
 
     public TrafficLightController()
     {
-        trafficLevel = "low";
+        // initialize all lights
 
-        lights[0] = new TrafficLight("NORTH-1");
-        lights[1] = new TrafficLight("NORTH-2");
-        lights[2] = new TrafficLight("SOUTH-1");
-        lights[3] = new TrafficLight("SOUTH-2");
-        lights[4] = new TrafficLight("EAST-1");
-        lights[5] = new TrafficLight("EAST-2");
-        lights[6] = new TrafficLight("WEST-1");
-        lights[7] = new TrafficLight("WEST-2");
+        lights[0][0] = new TrafficLight("NORTH"); // NORTH
+        lights[0][1] = new TrafficLight("NORTH");
+
+        lights[1][0] = new TrafficLight("SOUTH"); // SOUTH
+        lights[1][1] = new TrafficLight("SOUTH");
+
+        lights[2][0] = new TrafficLight("EAST"); // EAST
+        lights[2][1] = new TrafficLight("EAST");
+
+        lights[3][0] = new TrafficLight("WEST"); // WEST
+        lights[3][1] = new TrafficLight("WEST");
     }
 
-    // runs on timer
-    public void highTrafficCycle()
+    public void startCycle()
     {
-        while (trafficLevel == "HIGH")
+
+        setLights("NORTH", "SOUTH", "green");
+
+        while (true)
         {
-            // NORTH SOUTH TRAFFIC
+            readSensors();
 
-            // set north and south green
-            setLights("NORTH-1", "NORTH-2", "green");
-            setLights("SOUTH-1", "SOUTH-2", "green");
-
-            // set east and west red
-            setLights("EAST-1", "EAST-2", "red");
-            setLights("WEST-1", "WEST-2", "red");
-            testPrint();
-            waitFor(45); // 58 sec wait
-
-            // begin 4 sec north south yellow
-            setLights("NORTH-1", "NORTH-2", "yellow");
-            setLights("SOUTH-1", "SOUTH-2", "yellow");
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 2; j++)
+                {
+                    updateLight(i, j);
+                }
+            }
 
             testPrint();
-            waitFor(4);
 
-            // set north south red
-            setLights("NORTH-1", "NORTH-2", "red");
-            setLights("SOUTH-1", "SOUTH-2", "red");
-
-            // BEGIN EAST WEST TRAFFIC
-
-            // set east west green
-            setLights("EAST-1", "EAST-2", "green");
-            setLights("WEST-1", "WEST-2", "green");
-
-            testPrint();
-            waitFor(45);
-
-            // begin east west yellow
-            testPrint();
-            setLights("EAST-1", "EAST-2", "yellow");
-            setLights("WEST-1", "WEST-2", "yellow");
-            waitFor(4);
-
+            waitFor(1);
         }
-
     }
 
-    // runs on sensor
-    public void lowTrafficCycle()
+    private void updateLight(int streetIndex, int laneIndex)
     {
-        while (trafficLevel == "LOW")
-        {
+        lightTimers[streetIndex][laneIndex]++;
 
+        if (trafficSensors[streetIndex][laneIndex] == 1)
+        {
+            if (lights[streetIndex][laneIndex].getColor().equals("green"))
+            {
+                if (lightTimers[streetIndex][laneIndex] >= greenLightTime)
+                {
+                    lights[streetIndex][laneIndex].setColor("yellow");
+                    lightTimers[streetIndex][laneIndex] = 0;
+                }
+            } else if (lights[streetIndex][laneIndex].getColor().equals("yellow"))
+            {
+                if (lightTimers[streetIndex][laneIndex] >= yellowLightTime)
+                {
+                    lights[streetIndex][laneIndex].setColor("red");
+                    lightTimers[streetIndex][laneIndex] = 0;
+                }
+            } else if (lights[streetIndex][laneIndex].getColor().equals("red"))
+            {
+                if (lightTimers[streetIndex][laneIndex] >= redLightTime)
+                {
+                    lights[streetIndex][laneIndex].setColor("green");
+                    lightTimers[streetIndex][laneIndex] = 0;
+                }
+            }
+            trafficLevel = "traffic level: high";
+        } else
+        {
+            if (lights[streetIndex][laneIndex].getColor().equals("green"))
+            {
+                if (lightTimers[streetIndex][laneIndex] >= greenLightTime)
+                {
+                    lights[streetIndex][laneIndex].setColor("yellow");
+                    lightTimers[streetIndex][laneIndex] = 0;
+                }
+            } else if (lights[streetIndex][laneIndex].getColor().equals("yellow"))
+            {
+                if (lightTimers[streetIndex][laneIndex] >= yellowLightTime)
+                {
+                    lights[streetIndex][laneIndex].setColor("red");
+                    lightTimers[streetIndex][laneIndex] = 0;
+                }
+            } else if (lights[streetIndex][laneIndex].getColor().equals("red"))
+            {
+                if (lightTimers[streetIndex][laneIndex] >= redLightTime)
+                {
+                    lights[streetIndex][laneIndex].setColor("green");
+                    lightTimers[streetIndex][laneIndex] = 0;
+                }
+            }
+            trafficLevel = "traffic level: low";
         }
 
+        System.out.println(trafficLevel);
     }
 
     public void setLights(String dir1, String dir2, String color)
     {
         for (int i = 0; i < lights.length; i++)
         {
-            if (lights[i].getDirection().contains(dir1) || lights[i].getDirection().contains(dir2))
+            for (int j = 0; j < 2; j++)
             {
-                lights[i].setColor(color);
+                if (lights[i][j].getDirection().contains(dir1) || lights[i][j].getDirection().contains(dir2))
+                {
+                    lights[i][j].setColor(color);
+                }
             }
 
         }
+
     }
 
     public void waitFor(int seconds)
@@ -99,13 +138,36 @@ public class TrafficLightController
 
     public void testPrint()
     {
-        for (int i = 0; i < lights.length; i++)
+        for (int i = 0; i < 4; i++)
         {
-            System.out.println(lights[i].getDirection() + " --> " + lights[i].getColor());
-
+            for (int j = 0; j < 2; j++)
+            {
+                System.out.println(lights[i][j].getDirection() + " ==> " + lights[i][j].getColor());
+            }
         }
 
-        System.out.println("waiting");
         System.out.println("--------------------");
     }
+
+    public void setLightTimers(int redLightTime, int yellowLightTime, int greenLightTime)
+    {
+        this.greenLightTime = greenLightTime;
+        this.redLightTime = redLightTime;
+        this.yellowLightTime = yellowLightTime;
+    }
+
+    private void readSensors()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 2; j++)
+            {
+                if (lights[i][j].getColor().equals("green"))
+                {
+                    trafficSensors[i][j] = Math.random() < 0.7 ? 1 : 0;
+                }
+            }
+        }
+    }
+
 }

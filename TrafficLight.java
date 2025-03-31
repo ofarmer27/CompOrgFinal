@@ -27,4 +27,5 @@ public class TrafficLight
     {
         return this.direction;
     }
+
 }

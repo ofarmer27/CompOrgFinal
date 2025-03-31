@@ -1,13 +1,11 @@
 
-public class Main
+public class Driver
 {
     public static void main(String[] args)
     {
         TrafficLightController trafficLightController = new TrafficLightController();
-
-        trafficLightController.trafficLevel = "HIGH";
-
-        trafficLightController.highTrafficCycle();
+        trafficLightController.setLightTimers(30, 5, 30);
+        trafficLightController.startCycle();
 
     }
 }
