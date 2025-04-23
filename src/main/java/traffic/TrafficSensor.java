@@ -2,7 +2,7 @@ package src.main.java.traffic;
 import java.util.random.*;
 class TrafficSensor
 {
-    Queue<Integer> carQueue = new Queue<Integer>();
+    Queue<Integer> carQueue;
     /*
      * This class represents a Traffic Sensor.
      * A traffic sensor uses a queue, adding to the back when needed, allowing cars through at
@@ -11,7 +11,7 @@ class TrafficSensor
 
      public TrafficSensor()
     {
-        
+        carQueue = new Queue<Integer>();
     }
 
     public void simulateReadSensor()
@@ -28,6 +28,17 @@ class TrafficSensor
     public int getQueueLength()
     {
         return carQueue.getNumberOfElements();
+    }
+
+    public int[] getQueueAsArray()
+    {
+        int[] queueArray = new int[carQueue.getNumberOfElements()];
+        for (int i = 0; i < queueArray.length; i++)
+        {
+            queueArray[i] = carQueue.dequeue();
+        }
+
+        return queueArray;
     }
 
 

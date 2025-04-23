@@ -4,13 +4,15 @@ package src.main.java.traffic;
 public class LightController 
 {
     // char arrays that indicate traffic pattern
-    private char[] lineOne;
-    private char[] lineTwo;
-    
+    Light[][] lights = new Light[4][2];
+
+    int[][] timers = new int[4][2];
+
+    String stateSequenceOne;
+    String stateSequenceTwo;
+
     Queue<Character> stateQueueOne = new Queue<Character>();
     Queue<Character> stateQueueTwo = new Queue<Character>();
-
-    
     
     /*
      * 
@@ -21,42 +23,107 @@ public class LightController
      * 
      * 1 2 a 3 4 a
      * 5 6 a 7 8 a
-     * 
-     * 
      */
 
-    public LightController(char[] lineOne, char[] lineTwo) 
+    public LightController() 
     {
-        this.lineOne = lineOne;
-        this.lineTwo = lineTwo;
 
-        initializeStateQueues(lineOne, lineTwo);
+        lights[0][0] = new Light("north");
+        lights[0][1] = new Light("north");
+
+        lights[1][0] = new Light("south");
+        lights[1][1] = new Light("south");
+
+        lights[2][0]= new Light("east");
+        lights[2][1]= new Light("east");
+
+        lights[3][0] = new Light("west");
+        lights[3][1] = new Light("west");
+
+        setLights(null, null);
+        // initializeTimers()
+        // initiailizeSensors()
+        // checkSensors()
+        // determinePriority()
+        // shiftQueue ?? 
+        // setLight
 
     }
 
-    public void startCycle(Boolean on) 
+    public void startCycle() 
     {
-        while (on == true)
+        initializeStateQueues(stateSequenceOne, stateSequenceTwo);
+        while (true)
         {
+            
             /* 
+             * check shift queue next and current and change lights accordingly
+             * 
              * Check Sensors and create priority
              * advance states based on timers and priorities
              * 
              * 
              */
-
+            // testPrint();
+            
+            waitFor(1);
         }
     }
     
-    public static void initializeStateQueues(char[] lineOne, char[] lineTwo)
+    private void waitFor(int seconds)
     {
-        for (int i = 0; i < lineOne.length; i++)
-        {
-
-
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (InterruptedException e) {
+            System.out.println(e);
+        }
+    }
+    
+    private void setLights(String direction, String color)
+    {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 2; j++) {
+                if (lights[i][j].getDirection() == direction) {
+                    lights[i][j].setColor(color);
+                }
+            }
         }
 
     }
+    
+    private void testPrint()
+    {
+        for (int i = 0; i < 4; i++) 
+        {
+            for (int j = 0; j < 2; j++) {
+                System.out.print(lights[i][j].getColor() + " ");
+            }
+        }
+        
+
+        System.out.println();
+    }
+    
+    public void initializeStateQueues(String stateSequenceOne, String stateSequenceTwo)
+    {
+
+        for (int i = 0; i < stateSequenceOne.length(); i++)
+        {
+            stateQueueOne.enqueue(stateSequenceOne.charAt(i));
+            stateQueueTwo.enqueue(stateSequenceTwo.charAt(i));
+        }
+
+    }
+    
+    // public static void initiailizeSensors()
+    // {
+
+    // }
+
+    // public static void initializeTimers() 
+    // {
+
+    // }
 
 
 

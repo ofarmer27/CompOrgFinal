@@ -1,23 +1,17 @@
 package src.main.java.traffic;
 
-import src.main.java.QueueInterface;
-
 public class Queue<T> implements QueueInterface<T>
 {
     private int numberOfElements;
 
-    public Node front;
-    public Node back;
-    
-    // X <-- Y <-- Z
+    private Node front;
+    private Node back;
     
     public Queue()
     {
-        front = new Node(null);
-        back = new Node(null);
-        front.setNext(null);
-        back.setNext(front);
+
     }
+    // front --> back
     
     public boolean isEmpty()
     {
@@ -36,34 +30,44 @@ public class Queue<T> implements QueueInterface<T>
 
     public void enqueue(T item)
     {
-    
-        
-        Node newNode = new Node(item, back);
-        back = newNode;
-        front.setNext(back);
-    
+        Node newNode = new Node(item);
+
+        if (back != null)
+        {
+            back.setNext(newNode);
+            back = newNode;
+        }
+        else if (back == null)
+        {
+            front = back = newNode;
+        }
+
         numberOfElements++;
     }
 
     public T dequeue()
     {
-        T value;
+        T removedValue;
         
         if (isEmpty())
         {
-            value = null; 
+            removedValue = null;
         }
         else
         {
-            value = front.getData();
+            removedValue = front.getData();
             Node newFront = front.getNext();
             front.setNext(null);
             front = newFront;
-            front.setNext(back);
+            if (isEmpty())
+            {
+                back = null;
+            }
+            numberOfElements--;
         }
         
-        numberOfElements--;
-        return value;
+        
+        return removedValue;
     }
     
     public T peek()
@@ -71,20 +75,11 @@ public class Queue<T> implements QueueInterface<T>
         return front.getData();
     }
 
-    public T getFront()
-    {
-        return front.getData();
-    }
-
-    public T getBack()
-    {
-        return back.getData();
-    }
-
     public int getNumberOfElements()
     {
         return numberOfElements;
     }
+
     protected class Node
     {
         private T data; 

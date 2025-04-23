@@ -1,4 +1,4 @@
-package src.main.java;
+package src.main.java.traffic;
 
 public interface QueueInterface<T>
 {
@@ -28,8 +28,11 @@ public interface QueueInterface<T>
      */
     public T peek();
 
-    public T getFront();
+    /* 
+     * 
+     * @returns number of elements as an integer
+     */
+    public int getNumberOfElements();
 
-    public T getBack();
     
 }
