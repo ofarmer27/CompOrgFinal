@@ -1,15 +1,15 @@
-package src.main.java;
+package src.main.java.traffic;
 
 
 // a traffic light can have a direction (referenced by the TO direction: a north-south road is called south)
 // 
-public class TrafficLight
+class Light
 {
     String direction; // N,S,E,W
     String color; // R,Y,G
 
     // default traffic light is red.
-    public TrafficLight(String direction)
+    public Light(String direction)
     {
         this.color = "red";
         this.direction = direction;

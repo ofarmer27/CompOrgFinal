@@ -1,4 +1,6 @@
-package src.main.java;
+package src.main.java.traffic;
+
+import src.main.java.QueueInterface;
 
 public class Queue<T> implements QueueInterface<T>
 {
@@ -36,9 +38,7 @@ public class Queue<T> implements QueueInterface<T>
     {
     
         
-        Node newNode = new Node(item);
-
-        newNode.setNext(back);
+        Node newNode = new Node(item, back);
         back = newNode;
         front.setNext(back);
     
@@ -81,10 +81,11 @@ public class Queue<T> implements QueueInterface<T>
         return back.getData();
     }
 
-
-    public
-
-    private class Node
+    public int getNumberOfElements()
+    {
+        return numberOfElements;
+    }
+    protected class Node
     {
         private T data; 
         private Node next;
