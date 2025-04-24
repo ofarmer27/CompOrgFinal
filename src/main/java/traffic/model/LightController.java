@@ -1,6 +1,6 @@
 package src.main.java.traffic.model;
 
-import src.main.java.traffic.interfaces.Queue;
+import src.main.java.traffic.interfaces.LinkedQueue;
 
 public class LightController 
 {
@@ -12,8 +12,8 @@ public class LightController
     String stateSequenceOne;
     String stateSequenceTwo;
 
-    Queue<Character> stateQueueOne = new Queue<Character>();
-    Queue<Character> stateQueueTwo = new Queue<Character>();
+    LinkedQueue<Character> stateQueueOne = new LinkedQueue<Character>();
+    LinkedQueue<Character> stateQueueTwo = new LinkedQueue<Character>();
     
     /*
      * 

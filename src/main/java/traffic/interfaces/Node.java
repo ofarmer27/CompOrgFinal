@@ -16,24 +16,23 @@ public class Node<T> implements NodeInterface<T>
             this.next = next;
         }
 
-        //getData
         public T getData()
         {
             return data;
         }
-        //setData
+
         public void setData(T data)
         {
             this.data = data;
         }
-        //getNext
+
 
         public Node<T> getNext()
         {
             return next;
         }
 
-        //setNext 
+
         public void setNext(Node<T> next)
         {
             this.next = next;

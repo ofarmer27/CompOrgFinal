@@ -1,9 +1,9 @@
 package src.main.java.traffic.model;
 
-import src.main.java.traffic.interfaces.Queue;
+import src.main.java.traffic.interfaces.LinkedQueue;
 class TrafficSensor
 {
-    Queue<Integer> carQueue;
+    LinkedQueue<Integer> carQueue;
     /*
      * This class represents a Traffic Sensor.
      * A traffic sensor uses a queue, adding to the back when needed, allowing cars through at
@@ -12,7 +12,7 @@ class TrafficSensor
 
      public TrafficSensor()
     {
-        carQueue = new Queue<Integer>();
+        carQueue = new LinkedQueue<Integer>();
     }
 
     public void simulateReadSensor()

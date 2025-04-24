@@ -1,6 +1,6 @@
 package src.main.java.traffic.interfaces;
 
-public interface QueueInterface<T>
+public interface LinkedQueueInterface<T>
 {
     /* 
      * checks if the queue is empty
@@ -33,6 +33,13 @@ public interface QueueInterface<T>
      * @returns number of elements as an integer
      */
     public int getNumberOfElements();
+
+
+    /* 
+     * prints contents (data of queue)
+     */
+    public void printQueue();
+
 
     
 }

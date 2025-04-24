@@ -1,6 +1,6 @@
 package src.main.java.traffic.interfaces;
 
-public class Queue<T> implements QueueInterface<T>
+public class LinkedQueue<T> implements LinkedQueueInterface<T>
 {
     private int numberOfElements;
 
@@ -73,6 +73,21 @@ public class Queue<T> implements QueueInterface<T>
     public int getNumberOfElements()
     {
         return numberOfElements;
+    }
+
+    public void printQueue()
+    {
+        Node<T> currentNode = front;
+        System.out.print("head: ");
+        for (int i = 0; i < numberOfElements; i++)
+        {
+            System.out.print(currentNode.getData() + " ");
+            if (currentNode.getNext() != null) {
+                currentNode = currentNode.getNext();
+            }
+        }
+        System.out.print(":tail");
+        System.out.println();
     }
 
 }

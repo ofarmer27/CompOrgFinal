@@ -1,16 +1,15 @@
 package src.main.java.traffic.interfaces;
 
-public class CircularQueue<T> implements QueueInterface<T>
+public class LinkedCircularQueue<T> implements LinkedQueueInterface<T>
 {
-    public Boolean isCircularBoolean; 
     private int numberOfElements;
 
     protected Node<T> front;
     protected Node<T> back;
     
-    public CircularQueue(Boolean isCircularBoolean)
+    public LinkedCircularQueue()
     {
-        this.isCircularBoolean = isCircularBoolean; 
+
     }
     // front --> element --> back
     
@@ -87,20 +86,29 @@ public class CircularQueue<T> implements QueueInterface<T>
         return numberOfElements;
     }
 
-    public void cycle()
+    public void printQueue()
     {
-        if (isCircularBoolean == true)
+        Node<T> currentNode = front;
+        
+        System.out.print("head: ");
+        for (int i = 0; i < numberOfElements; i++)
         {
-            if (!isEmpty() && back != null) {
-                front = front.getNext();
-                back.setNext(back.getNext().getNext());
+            System.out.print(currentNode.getData() + " ");
+            if (currentNode.getNext() != front) {
+                currentNode = currentNode.getNext();
             }
         }
-        else
-        {
-            System.out.println("");
-        }
+        System.out.print(":tail");
         
+        System.out.println();
+    }
+
+    public void cycle()
+    {
+        if (!isEmpty() && back != null) {
+            front = front.getNext();
+            back.setNext(back.getNext());
+        }
     }
 
 }
