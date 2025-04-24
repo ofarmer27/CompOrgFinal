@@ -1,19 +1,18 @@
 package src.main.java.traffic.model;
 
-import src.main.java.traffic.interfaces.LinkedQueue;
+import src.main.java.traffic.interfaces.LinkedCircularQueue;
 
-public class LightController 
-{
+public class LightController {
     // char arrays that indicate traffic pattern
-    Light[][] lights = new Light[4][2];
+    private Light[][] lights = new Light[4][2];
 
-    int[][] timers = new int[4][2];
+    private int timer;
 
-    String stateSequenceOne;
-    String stateSequenceTwo;
+    private String stateSequenceOne;
+    private String stateSequenceTwo;
 
-    LinkedQueue<Character> stateQueueOne = new LinkedQueue<Character>();
-    LinkedQueue<Character> stateQueueTwo = new LinkedQueue<Character>();
+    public LinkedCircularQueue<Character> stateRingOne = new LinkedCircularQueue<Character>();
+    public LinkedCircularQueue<Character> stateRingTwo = new LinkedCircularQueue<Character>();
     
     /*
      * 
@@ -26,8 +25,7 @@ public class LightController
      * 5 6 a 7 8 a
      */
 
-    public LightController() 
-    {
+    public LightController() {
 
         lights[0][0] = new Light("north");
         lights[0][1] = new Light("north");
@@ -35,97 +33,64 @@ public class LightController
         lights[1][0] = new Light("south");
         lights[1][1] = new Light("south");
 
-        lights[2][0]= new Light("east");
-        lights[2][1]= new Light("east");
+        lights[2][0] = new Light("east");
+        lights[2][1] = new Light("east");
 
         lights[3][0] = new Light("west");
         lights[3][1] = new Light("west");
 
-        setLights(null, null);
-        // initializeTimers()
-        // initiailizeSensors()
-        // checkSensors()
-        // determinePriority()
-        // shiftQueue ?? 
-        // setLight
-
     }
 
-    public void startCycle() 
-    {
+    public void startCycle() {
         initializeStateQueues(stateSequenceOne, stateSequenceTwo);
-        while (true)
-        {
-            
-            /* 
-             * check shift queue next and current and change lights accordingly
-             * 
-             * Check Sensors and create priority
-             * advance states based on timers and priorities
-             * 
-             * 
-             */
+
+        while (true) {
+
             testPrint();
-            
             waitFor(1);
+            timer++; 
         }
     }
-    
-    private void waitFor(int seconds)
-    {
+
+    private void waitFor(int seconds) {
         try {
             Thread.sleep(seconds * 1000);
         } catch (InterruptedException e) {
             System.out.println(e);
         }
     }
-    
-    private void setLights(String direction, String color)
-    {
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 2; j++) {
-                if (lights[i][j].getDirection() == direction) {
-                    lights[i][j].setColor(color);
-                }
-            }
-        }
 
-    }
-    
-    private void testPrint()
-    {
-        for (int i = 0; i < 4; i++) 
-        {
-            for (int j = 0; j < 2; j++) {
+    // private void setLights(String direction, String color) {
+
+    //     for (int i = 0; i < lights.length; i++) {
+    //         for (int j = 0; j < lights[i].length; j++) {
+    //             if (lights[i][j].getDirection() == direction) {
+    //                 lights[i][j].setColor(color);
+    //             }
+    //         }
+    //     }
+
+    // }
+
+    private void testPrint() {
+        for (int i = 0; i < lights.length; i++) {
+            for (int j = 0; j < lights[i].length; j++) {
                 System.out.print(lights[i][j].getColor() + " ");
             }
         }
-        
 
         System.out.println();
     }
-    
-    public void initializeStateQueues(String stateSequenceOne, String stateSequenceTwo)
-    {
 
-        for (int i = 0; i < stateSequenceOne.length(); i++)
-        {
-            stateQueueOne.enqueue(stateSequenceOne.charAt(i));
-            stateQueueTwo.enqueue(stateSequenceTwo.charAt(i));
+    public void initializeStateQueues(String stateSequenceOne, String stateSequenceTwo) {
+
+        for (int i = 0; i < stateSequenceOne.length(); i++) {
+            stateRingOne.enqueue(stateSequenceOne.charAt(i));
+            stateRingTwo.enqueue(stateSequenceTwo.charAt(i));
         }
 
     }
+
     
-    // public static void initiailizeSensors()
-    // {
-
-    // }
-
-    // public static void initializeTimers() 
-    // {
-
-    // }
-
-
 
 }

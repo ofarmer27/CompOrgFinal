@@ -31,16 +31,4 @@ class TrafficSensor
         return carQueue.getNumberOfElements();
     }
 
-    public int[] getQueueAsArray()
-    {
-        int[] queueArray = new int[carQueue.getNumberOfElements()];
-        for (int i = 0; i < queueArray.length; i++)
-        {
-            queueArray[i] = carQueue.dequeue();
-        }
-
-        return queueArray;
-    }
-
-
 }
