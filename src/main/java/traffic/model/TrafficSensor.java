@@ -12,7 +12,7 @@ class TrafficSensor
 
      public TrafficSensor()
     {
-        carQueue = new Queue<Integer>(false);
+        carQueue = new Queue<Integer>();
     }
 
     public void simulateReadSensor()

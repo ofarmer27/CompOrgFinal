@@ -1,6 +1,6 @@
 package src.main.java.traffic.interfaces;
 
-public class Node<T>
+public class Node<T> implements NodeInterface<T>
     {
         public T data; 
         public Node<T> next;
@@ -22,7 +22,7 @@ public class Node<T>
             return data;
         }
         //setData
-        private void setData(T data)
+        public void setData(T data)
         {
             this.data = data;
         }

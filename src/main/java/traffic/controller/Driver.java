@@ -9,7 +9,7 @@ public class Driver
         // LightController myLightController = new LightController();
 
         // myLightController.startCycle(null);
-        Queue<Integer> myQueue = new Queue<>(false);
+        Queue<Integer> myQueue = new Queue<Integer>();
 
         for (int i = 0; i < 5; i++)
         {

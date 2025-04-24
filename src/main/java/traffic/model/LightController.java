@@ -12,8 +12,8 @@ public class LightController
     String stateSequenceOne;
     String stateSequenceTwo;
 
-    Queue<Character> stateQueueOne = new Queue<Character>(true);
-    Queue<Character> stateQueueTwo = new Queue<Character>(true);
+    Queue<Character> stateQueueOne = new Queue<Character>();
+    Queue<Character> stateQueueTwo = new Queue<Character>();
     
     /*
      * 
@@ -65,7 +65,7 @@ public class LightController
              * 
              * 
              */
-            // testPrint();
+            testPrint();
             
             waitFor(1);
         }

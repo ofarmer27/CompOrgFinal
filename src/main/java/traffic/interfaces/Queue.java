@@ -2,16 +2,10 @@ package src.main.java.traffic.interfaces;
 
 public class Queue<T> implements QueueInterface<T>
 {
-    public Boolean isCircularBoolean; 
     private int numberOfElements;
 
     protected Node<T> front;
     protected Node<T> back;
-    
-    public Queue(Boolean isCircularBoolean)
-    {
-        this.isCircularBoolean = isCircularBoolean; 
-    }
     // front --> element --> back
     
     public boolean isEmpty()
@@ -31,17 +25,12 @@ public class Queue<T> implements QueueInterface<T>
 
     public void enqueue(T item)
     {
-        Node<T> newNode = new Node(item);
+        Node<T> newNode = new Node<T>(item);
 
         if (back != null)
         {
             back.setNext(newNode); // set back node next reference to the new node
             back = newNode;
-            
-            if (isCircularBoolean)
-            {
-                back.setNext(front); // set new back node next reference to front
-            } // set back reference to new node
         }
         else if (back == null)
         {
@@ -69,10 +58,6 @@ public class Queue<T> implements QueueInterface<T>
             {
                 back = null;
             }
-            else
-            {
-                back.setNext(front);
-            }
             numberOfElements--;
         }
         
@@ -88,22 +73,6 @@ public class Queue<T> implements QueueInterface<T>
     public int getNumberOfElements()
     {
         return numberOfElements;
-    }
-
-    public void cycle()
-    {
-        if (isCircularBoolean == true)
-        {
-            if (!isEmpty() && back != null) {
-                front = front.getNext();
-                back.setNext(back.getNext().getNext());
-            }
-        }
-        else
-        {
-            throw Exception 
-        }
-        
     }
 
 }
