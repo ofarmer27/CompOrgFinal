@@ -1,4 +1,4 @@
-package src.main.java.traffic;
+package src.main.java.traffic.model;
 
 
 // a traffic light can have a direction (referenced by the TO direction: a north-south road is called south)

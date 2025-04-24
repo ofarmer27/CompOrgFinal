@@ -1,4 +1,4 @@
-package src.main.java.traffic;
+package src.main.java.traffic.controller;
 // package src.main.java;
 
 

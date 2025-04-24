@@ -1,17 +1,18 @@
-package src.main.java.traffic;
+package src.main.java.traffic.interfaces;
 
 public class Queue<T> implements QueueInterface<T>
 {
+    public Boolean isCircularBoolean; 
     private int numberOfElements;
 
-    private Node front;
-    private Node back;
+    protected Node<T> front;
+    protected Node<T> back;
     
-    public Queue()
+    public Queue(Boolean isCircularBoolean)
     {
-
+        this.isCircularBoolean = isCircularBoolean; 
     }
-    // front --> back
+    // front --> element --> back
     
     public boolean isEmpty()
     {
@@ -30,12 +31,17 @@ public class Queue<T> implements QueueInterface<T>
 
     public void enqueue(T item)
     {
-        Node newNode = new Node(item);
+        Node<T> newNode = new Node(item);
 
         if (back != null)
         {
-            back.setNext(newNode);
+            back.setNext(newNode); // set back node next reference to the new node
             back = newNode;
+            
+            if (isCircularBoolean)
+            {
+                back.setNext(front); // set new back node next reference to front
+            } // set back reference to new node
         }
         else if (back == null)
         {
@@ -56,12 +62,16 @@ public class Queue<T> implements QueueInterface<T>
         else
         {
             removedValue = front.getData();
-            Node newFront = front.getNext();
+            Node<T> newFront = front.getNext();
             front.setNext(null);
             front = newFront;
             if (isEmpty())
             {
                 back = null;
+            }
+            else
+            {
+                back.setNext(front);
             }
             numberOfElements--;
         }
@@ -80,45 +90,21 @@ public class Queue<T> implements QueueInterface<T>
         return numberOfElements;
     }
 
-    protected class Node
+    public void cycle()
     {
-        private T data; 
-        private Node next;
+        if (isCircularBoolean == true)
+        {
+            if (!isEmpty() && back != null) {
+                front = front.getNext();
+                back.setNext(back.getNext().getNext());
+            }
+        }
+        else
+        {
+            throw Exception 
+        }
         
-        private Node(T dataPortion)
-        {
-            this(dataPortion, null);
-        }
-
-        private Node(T dataPortion, Node nextNode)
-        {
-            data = dataPortion;
-            next = nextNode;
-        }
-
-        //getData
-        private T getData()
-        {
-            return data;
-        }
-        //setData
-        private void setData(T data)
-        {
-            this.data = data;
-        }
-        //getNext
-
-        private Node getNext()
-        {
-            return next;
-        }
-
-        //setNext 
-        private void setNext(Node nextNode)
-        {
-            next = nextNode;
-        }
-
     }
+
 }
 

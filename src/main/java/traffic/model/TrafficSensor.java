@@ -1,5 +1,6 @@
-package src.main.java.traffic;
-import java.util.random.*;
+package src.main.java.traffic.model;
+
+import src.main.java.traffic.interfaces.Queue;
 class TrafficSensor
 {
     Queue<Integer> carQueue;
@@ -11,7 +12,7 @@ class TrafficSensor
 
      public TrafficSensor()
     {
-        carQueue = new Queue<Integer>();
+        carQueue = new Queue<Integer>(false);
     }
 
     public void simulateReadSensor()
