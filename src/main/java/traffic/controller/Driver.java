@@ -9,7 +9,12 @@ public class Driver
     public static void main(String[] args)
     {
         LightController controller = new LightController("12a34", "56a78");
-        controller.startCycle(120);
+        controller.startCycle(5);
+
+
+
+
+
         
     }
 }

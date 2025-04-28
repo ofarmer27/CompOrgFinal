@@ -1,7 +1,6 @@
-package src.main.java.traffic.model;
+package src.main.java.traffic.interfaces;
 
-import src.main.java.traffic.interfaces.LinkedQueue;
-class TrafficSensor
+public class TrafficSensor
 {
     LinkedQueue<Integer> carQueue;
     /*

@@ -4,8 +4,8 @@ public class LinkedCircularQueue<T> implements LinkedQueueInterface<T>
 {
     private int numberOfElements;
 
-    protected Node<T> front;
-    protected Node<T> back;
+    Node<T> front;
+    Node<T> back;
     
     public LinkedCircularQueue()
     {
