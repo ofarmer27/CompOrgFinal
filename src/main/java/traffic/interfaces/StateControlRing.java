@@ -30,12 +30,6 @@ public class StateControlRing
             numberOfLights += 2;
         }
     }
-    
-    public void checkCurrentLights()
-    {
-        
-
-    }
 
 
 }

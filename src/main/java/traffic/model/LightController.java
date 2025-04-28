@@ -5,7 +5,6 @@ import src.main.java.traffic.interfaces.StateControlRing;
 
 public class LightController {
     // char arrays that indicate traffic pattern
-    private final Light[][] lights = new Light[4][3];
 
     int topTimer = 0;
 
@@ -44,33 +43,30 @@ public class LightController {
         }
     }
 
-
-    private void setLights(String direction, String color) 
-    {
-        for (int i = 0; i < lights.length; i++) {
-            for (int j = 0; j < lights[i].length; j++) {
-                if (lights[i][j].getDirection() == direction) {
-                    lights[i][j].setColor(color);
-                }
-            }
-        }
-    }
-
     public void updateLights()
     {
+        // simulate traffic sensors
         
-        
+        // if timer is up
         if (topTimer >= greenLightLength)
         {
+
+            // if (controlRing.stateRingOne.determinePriority() == controlRing.stateRingOne.peekNext().getDirection())
+            // {
+
+            // }
+            // else if (controlRing.stateRingOne.determinePriority() == controlRing.stateRingOne.peek().getDirection()) {
+
+            // }
+
+            // if (controlRing.stateRingOne.determinePriority() == controlRing.stateRingOne.peekNext().getDirection())
+            // {
+
+            // }
+
             controlRing.stateRingOne.peek().setColor("red");
             controlRing.stateRingTwo.peek().setColor("red");
 
-            // if (controlRing.stateRingOne.peek().getDirection() != "BARRIER"
-            //         && controlRing.stateRingTwo.peek().getDirection() != "BARRIER")
-            // {
-            //     controlRing.stateRingOne.cycle();
-            //     controlRing.stateRingTwo.cycle();
-            // }
             controlRing.stateRingOne.cycle();
             controlRing.stateRingTwo.cycle();
 

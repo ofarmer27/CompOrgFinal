@@ -9,13 +9,13 @@ public class SinglePhaseRing
 
     }
 
-    public char determinePriority()
+    public String determinePriority()
     {
         if (peek().sensor.getQueueLength() < peekNext().sensor.getQueueLength()) {
             // Priority is next Light, cycle
-            return peekNext().getID();
+            return peekNext().getDirection();
         } else {
-            return peek().getID();
+            return peek().getDirection();
             // Priority is current, extend by x 
         }
 
