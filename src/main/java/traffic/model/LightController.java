@@ -4,7 +4,7 @@ import src.main.java.traffic.interfaces.LinkedCircularQueue;
 
 public class LightController {
     // char arrays that indicate traffic pattern
-    private Light[][] lights = new Light[4][2];
+    private final Light[][] lights = new Light[4][3];
 
     private int timer;
 
@@ -13,7 +13,7 @@ public class LightController {
 
     public LinkedCircularQueue<Character> stateRingOne = new LinkedCircularQueue<Character>();
     public LinkedCircularQueue<Character> stateRingTwo = new LinkedCircularQueue<Character>();
-    
+
     /*
      * 
      * 2 - Eastbound    5 - EB Left Turn 
@@ -29,15 +29,20 @@ public class LightController {
 
         lights[0][0] = new Light("north");
         lights[0][1] = new Light("north");
+        lights[0][2] = new Light("north_turn");
+
 
         lights[1][0] = new Light("south");
         lights[1][1] = new Light("south");
+        lights[1][2] = new Light("south_turn");
 
         lights[2][0] = new Light("east");
         lights[2][1] = new Light("east");
+        lights[2][2] = new Light("east_turn");
 
         lights[3][0] = new Light("west");
         lights[3][1] = new Light("west");
+        lights[3][2] = new Light("west_turn");
 
     }
 
@@ -60,16 +65,13 @@ public class LightController {
         }
     }
 
+
+
     // private void setLights(String direction, String color) {
-
-    //     for (int i = 0; i < lights.length; i++) {
-    //         for (int j = 0; j < lights[i].length; j++) {
-    //             if (lights[i][j].getDirection() == direction) {
-    //                 lights[i][j].setColor(color);
-    //             }
-    //         }
-    //     }
-
+/* 
+ *       needs 
+ *          determinePriority(); returns comparison of 4 simulated traffic queues
+ */
     // }
 
     private void testPrint() {
@@ -84,7 +86,8 @@ public class LightController {
 
     public void initializeStateQueues(String stateSequenceOne, String stateSequenceTwo) {
 
-        for (int i = 0; i < stateSequenceOne.length(); i++) {
+        for (int i = 0; i < stateSequenceOne.length(); i++) 
+        {
             stateRingOne.enqueue(stateSequenceOne.charAt(i));
             stateRingTwo.enqueue(stateSequenceTwo.charAt(i));
         }

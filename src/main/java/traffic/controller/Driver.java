@@ -11,11 +11,15 @@ public class Driver
         LightController controller = new LightController();
 
         controller.initializeStateQueues("12a34", "56a78");
-        controller.stateQueueOne.printQueue();
-        controller.stateQueueOne.cycle();
-        controller.stateQueueOne.printQueue();
-        controller.stateQueueOne.cycle();
-        controller.stateQueueOne.printQueue();
+        controller.stateRingOne.printQueue();
+        controller.stateRingOne.cycle();
+        controller.stateRingOne.printQueue();
+        controller.stateRingOne.cycle();
+        controller.stateRingOne.printQueue();
+        controller.stateRingOne.cycle();
+        controller.stateRingOne.printQueue();
+        controller.stateRingOne.cycle();
+        
         
     }
 }
