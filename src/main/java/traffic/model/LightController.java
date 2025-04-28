@@ -1,99 +1,76 @@
 package src.main.java.traffic.model;
 
-import src.main.java.traffic.interfaces.LinkedCircularQueue;
-
 public class LightController {
     // char arrays that indicate traffic pattern
     private final Light[][] lights = new Light[4][3];
 
-    private int timer;
+    private int cycleTimer;
+    private int sensorCooldownTimer;
+    int totalCycleTime;
 
-    private String stateSequenceOne;
-    private String stateSequenceTwo;
+    StateControlRing controlRing;
 
-    public LinkedCircularQueue<Character> stateRingOne = new LinkedCircularQueue<Character>();
-    public LinkedCircularQueue<Character> stateRingTwo = new LinkedCircularQueue<Character>();
+    public LightController(String stateSequenceOne, String stateSequenceTwo) 
+    {
 
-    /*
-     * 
-     * 2 - Eastbound    5 - EB Left Turn 
-     * 4 - Southbound   7 - SB Left Turn 
-     * 6 - Westbound    1 - WB Left Turn 
-     * 8 - Northbound   3 - NB Left Turn
-     * 
-     * 1 2 a 3 4 a
-     * 5 6 a 7 8 a
-     */
-
-    public LightController() {
-
-        lights[0][0] = new Light("north");
-        lights[0][1] = new Light("north");
-        lights[0][2] = new Light("north_turn");
-
-
-        lights[1][0] = new Light("south");
-        lights[1][1] = new Light("south");
-        lights[1][2] = new Light("south_turn");
-
-        lights[2][0] = new Light("east");
-        lights[2][1] = new Light("east");
-        lights[2][2] = new Light("east_turn");
-
-        lights[3][0] = new Light("west");
-        lights[3][1] = new Light("west");
-        lights[3][2] = new Light("west_turn");
+        controlRing = new StateControlRing(stateSequenceOne, stateSequenceTwo);
 
     }
 
-    public void startCycle() {
-        initializeStateQueues(stateSequenceOne, stateSequenceTwo);
-
-        while (true) {
-
+    public void startCycle(int totalCycleTime) 
+    {
+        this.totalCycleTime = totalCycleTime;
+        while (cycleTimer < totalCycleTime) {
+            // evaluateTraffic void; setsLights; chooseAvailablePhase(determines queue proirity amongst available traffic options); 
+            updateLights();
             testPrint();
+            updateLights();
             waitFor(1);
-            timer++; 
+            cycleTimer++;
+            System.out.println(cycleTimer);
         }
     }
 
     private void waitFor(int seconds) {
         try {
             Thread.sleep(seconds * 1000);
+    
+
         } catch (InterruptedException e) {
             System.out.println(e);
         }
     }
 
 
-
-    // private void setLights(String direction, String color) {
-/* 
- *       needs 
- *          determinePriority(); returns comparison of 4 simulated traffic queues
- */
-    // }
-
-    private void testPrint() {
+    private void setLights(String direction, String color) 
+    {
         for (int i = 0; i < lights.length; i++) {
             for (int j = 0; j < lights[i].length; j++) {
-                System.out.print(lights[i][j].getColor() + " ");
+                if (lights[i][j].getDirection() == direction) {
+                    lights[i][j].setColor(color);
+                }
             }
         }
-
-        System.out.println();
     }
 
-    public void initializeStateQueues(String stateSequenceOne, String stateSequenceTwo) {
+    public void updateLights()
+    {
+        /* 
+         * if neither light is on
+         * 
+         */
+        Light current = controlRing.stateRingOne.peek();
 
-        for (int i = 0; i < stateSequenceOne.length(); i++) 
+    }
+
+    private void testPrint() 
+    {
+        for (int i = 0; i < lights.length; i++) 
         {
-            stateRingOne.enqueue(stateSequenceOne.charAt(i));
-            stateRingTwo.enqueue(stateSequenceTwo.charAt(i));
+            for (int j = 0; j < lights[i].length; j++) 
+            {
+     
+            }
         }
-
     }
-
-    
-
 }

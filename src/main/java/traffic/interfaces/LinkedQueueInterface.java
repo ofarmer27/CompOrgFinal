@@ -28,6 +28,8 @@ public interface LinkedQueueInterface<T>
      */
     public T peek();
 
+    public T peekNext();
+
     /* 
      * 
      * @returns number of elements as an integer

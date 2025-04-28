@@ -7,10 +7,15 @@ class Light
 {
     String direction; // N,S,E,W
     String color; // R,Y,G
+    
+    TrafficSensor sensor;
+
 
     // default traffic light is red.
     public Light(String direction)
     {
+        sensor = new TrafficSensor();
+        
         this.color = "red";
         this.direction = direction;
     }
@@ -28,12 +33,16 @@ class Light
         this.color = color;
     }
 
-    // gets the direction of the light. This will return the irection that the
-    // street is going towards.
-    // light direction cannot be changed after initialization.
+    
     public String getDirection()
     {
         return this.direction;
     }
+
+    public void simulateReadSensor()
+    {
+        sensor.simulateReadSensor();
+    }
+
 
 }

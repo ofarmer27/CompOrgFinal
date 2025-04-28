@@ -81,6 +81,11 @@ public class LinkedCircularQueue<T> implements LinkedQueueInterface<T>
         return front.getData();
     }
 
+    public T peekNext()
+    {
+        return front.getNext().getData();
+    }
+
     public int getNumberOfElements()
     {
         return numberOfElements;
