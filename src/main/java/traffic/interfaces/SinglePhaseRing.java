@@ -1,4 +1,4 @@
-package src.main.java.traffic.interfaces;
+package traffic.interfaces;
 
 public class SinglePhaseRing 
     extends LinkedCircularQueue<Light>

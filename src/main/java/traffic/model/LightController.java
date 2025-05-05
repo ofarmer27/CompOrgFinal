@@ -1,5 +1,5 @@
-package src.main.java.traffic.model;
-import src.main.java.traffic.interfaces.StateControlRing;
+package traffic.model;
+import traffic.interfaces.StateControlRing;
 
 public class LightController {
     // char arrays that indicate traffic pattern

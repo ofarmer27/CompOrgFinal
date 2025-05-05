@@ -1,4 +1,4 @@
-package src.main.java.traffic.interfaces;
+package traffic.interfaces;
 
 // a traffic light can have a direction (referenced by the TO direction: a north-south road is called south)
 // 

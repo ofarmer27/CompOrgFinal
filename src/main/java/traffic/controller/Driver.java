@@ -1,8 +1,8 @@
-package src.main.java.traffic.controller;
+package traffic.controller;
 
 // import src.main.java.traffic.interfaces.LinkedCircularQueue;
 // import src.main.java.traffic.interfaces.LinkedQueue;
-import src.main.java.traffic.model.LightController;
+import traffic.model.LightController;
 
 public class Driver
 {

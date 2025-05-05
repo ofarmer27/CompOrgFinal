@@ -1,4 +1,4 @@
-package src.main.java.traffic.interfaces;
+package traffic.interfaces;
 
 /* * 2 - Eastbound    5 - EB Left Turn 
      * 4 - Southbound   7 - SB Left Turn 
