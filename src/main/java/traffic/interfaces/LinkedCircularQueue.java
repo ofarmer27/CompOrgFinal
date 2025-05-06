@@ -32,16 +32,15 @@ public class LinkedCircularQueue<T> implements LinkedQueueInterface<T>
     {
         Node<T> newNode = new Node<T>(item);
 
-        if (back != null)
-        {
-            back.setNext(newNode); // set back node next reference to the new node
-            back = newNode;
-            back.setNext(front); // set new back node next reference to front
-
-        }
-        else if (back == null)
+        if (isEmpty())
         {
             front = back = newNode;
+        }
+        else
+        {
+            back.setNext(newNode);
+            back = newNode;
+            back.setNext(front);;
         }
 
         numberOfElements++;
@@ -78,7 +77,9 @@ public class LinkedCircularQueue<T> implements LinkedQueueInterface<T>
     
     public T peek()
     {
+
         return front.getData();
+        
     }
 
     public T peekNext()
@@ -98,8 +99,9 @@ public class LinkedCircularQueue<T> implements LinkedQueueInterface<T>
         System.out.print("head: ");
         for (int i = 0; i < numberOfElements; i++)
         {
-            System.out.print(currentNode.getData() + " ");
-            if (currentNode.getNext() != front) {
+            System.out.print(currentNode.getData());
+            if (currentNode.getNext() != front) 
+            {
                 currentNode = currentNode.getNext();
             }
         }

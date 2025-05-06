@@ -8,8 +8,11 @@ public class Driver
 {
     public static void main(String[] args)
     {
-        LightController controller = new LightController("12a34a", "56a78a");
-        controller.startCycle(5);
+        String[] phaseStrings = { "12a34", "56a78" };
+        LightController controller = new LightController(phaseStrings);
+        controller.startCycle(60);
+
+
 
 
 

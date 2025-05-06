@@ -15,9 +15,10 @@ public class Light
     // default traffic light is red.
     public Light(char ID)
     {
-        sensor = new TrafficSensor();
+        
         if (ID != 'a')
         {
+            sensor = new TrafficSensor();
             this.ID = ID; 
             this.color = "red";
             setDirectionByLetter(ID);
@@ -89,7 +90,7 @@ public class Light
 
     }
     
-    public void simulateTraffic()
+    public void simulateReadSensor()
     {
         sensor.simulateReadSensor();
     }

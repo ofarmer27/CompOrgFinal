@@ -14,31 +14,45 @@ public class StateControlRing
     public StateControlRing(String[] stateSequences)
     {
         rings = new SinglePhaseRing[2];
+        rings[0] = new SinglePhaseRing();
+        rings[1] = new SinglePhaseRing();
         initializeStateQueues(stateSequences);
 
     }
     
     public void initializeStateQueues(String[] stateSequences) 
     {
-        rings[0] = new SinglePhaseRing();
-        rings[1] = new SinglePhaseRing();
-
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < stateSequences[0].length(); j++) {
-                rings[0].enqueue(new Light(stateSequences[i].charAt(j)));
+        for (int i = 0; i < 2; i++) 
+        {
+            for (int j = 0; j < stateSequences[i].length(); j++) 
+            {
+                rings[i].enqueue(new Light(stateSequences[i].charAt(j)));
             }
         }
     }
     
-    public void syncRingsAtNextBarrier()
+    public void syncRingsAfterNextBarrier()
     {
-        for (int i = 0; i < 2; i++)
-        {
-            while(rings[i].peek().getDirection() != "BARRIER")
-            {
+        for (int i = 0; i < 2; i++) {
+            while (rings[i].peek().getDirection() != "BARRIER") {
                 rings[i].cycle();
             }
             rings[i].cycle();
+        }
+    }
+    
+    public void printRingQueues()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            for (int j = 0; j < rings[i].getNumberOfElements(); j++ )
+            {
+                String color = rings[i].peek().getColor();
+                String direction = rings[i].peek().getDirection();
+                System.out.printf("Direction: %s\t\tColor %s\n", direction, color);
+                rings[i].cycle();
+            }
+            System.out.println();
         }
     }
 
