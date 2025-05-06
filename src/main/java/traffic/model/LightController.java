@@ -5,10 +5,19 @@ public class LightController {
     // char arrays that indicate traffic pattern
 
     int topTimer = 0;
+    int botTimer = 0;
+    int simulateReadSensorCooldown = 5;
+    int simulateReadSensorTimer = 0;  
 
     int greenLightLength; 
 
     StateControlRing controlRing;
+
+    String topRingCurrentDirection;
+    String botRingCurrentDirection;
+    
+    String topRingCurrentColor;
+    String botRingCurrentColor; 
 
     public LightController(String stateSequenceOne, String stateSequenceTwo) 
     {
@@ -22,13 +31,19 @@ public class LightController {
         this.greenLightLength = greenLightLength;
         controlRing.stateRingOne.peek().setColor("green");
         controlRing.stateRingTwo.peek().setColor("green");
-        while (true) 
-        {
+        while (true) {
             updateLights();
             testPrint();
             waitFor(1);
-            topTimer++;
+            incrementTimers();
         }
+    }
+    
+    private void incrementTimers()
+    {
+        topTimer++;
+        botTimer++;
+        simulateReadSensorTimer++;
     }
 
     private void waitFor(int seconds) {
@@ -41,57 +56,68 @@ public class LightController {
         }
     }
 
+    public void simulateSensors()
+    {
+        if (simulateReadSensorTimer >= simulateReadSensorCooldown)
+        {
+            controlRing.stateRingOne.peek().simulateTraffic();
+            controlRing.stateRingTwo.peek().simulateTraffic();
+            simulateReadSensorTimer = 0; 
+        }
+        
+    }
+
     public void updateLights()
     {
-        
-        if (topTimer >= greenLightLength)
-        {
-            controlRing.stateRingOne.peek().setColor("red");
-            controlRing.stateRingTwo.peek().setColor("red");
+        simulateSensors();
 
-            controlRing.stateRingOne.cycle();
-            controlRing.stateRingTwo.cycle();
+        topRingCurrentColor = controlRing.stateRingOne.peek().getColor();
+        topRingCurrentDirection = controlRing.stateRingOne.peek().getDirection();
 
+        botRingCurrentColor = controlRing.stateRingTwo.peek().getColor();
+        botRingCurrentDirection = controlRing.stateRingTwo.peek().getDirection();
 
-            if (controlRing.stateRingOne.peek().getDirection() == "BARRIER"
-                    && controlRing.stateRingTwo.peek().getDirection() == "BARRIER") {
+        // if (topTimer >= greenLightLength) {
+        //     controlRing.stateRingOne.peek().setColor("red");
+        //     controlRing.stateRingTwo.peek().setColor("red");
 
-                topTimer = 0;
-            }
-            else if (controlRing.stateRingOne.peek().getDirection() == "BARRIER") {
-                controlRing.stateRingTwo.cycle();
+        //     controlRing.stateRingOne.cycle();
+        //     controlRing.stateRingTwo.cycle();
 
-                topTimer = 0;
-            }
-            else if (controlRing.stateRingTwo.peek().getDirection() == "BARRIER") {
+        //     if (controlRing.stateRingOne.peek().getDirection() == "BARRIER"
+        //             && controlRing.stateRingTwo.peek().getDirection() == "BARRIER") {
 
-                controlRing.stateRingOne.cycle();
-                topTimer = 0;
-            }
+        //         topTimer = 0;
+        //     } else if (controlRing.stateRingOne.peek().getDirection() == "BARRIER") {
+        //         controlRing.stateRingTwo.cycle();
 
-            controlRing.stateRingOne.peek().setColor("green");
-            controlRing.stateRingTwo.peek().setColor("green");
-            topTimer = 0;
-        }
+        //         topTimer = 0;
+        //     } else if (controlRing.stateRingTwo.peek().getDirection() == "BARRIER") {
 
+        //         controlRing.stateRingOne.cycle();
+        //         topTimer = 0;
+        //     }
+
+        //     controlRing.stateRingOne.peek().setColor("green");
+        //     controlRing.stateRingTwo.peek().setColor("green");
+        //     topTimer = 0;
+        // }
 
     }
 
     private void testPrint() 
     {
-        System.out.println(controlRing.stateRingOne.peek().getDirection() + " " + controlRing.stateRingOne.peek().getColor());
-
-        System.out.println(controlRing.stateRingOne.peek().getDirection() + " " + controlRing.stateRingTwo.peek().getColor());
-
-        System.out.println(topTimer);
-
         for (int i = 0; i < controlRing.numberOfLights; i++)
         {
+            topRingCurrentColor = controlRing.stateRingOne.peek().getColor(); 
+            topRingCurrentDirection = controlRing.stateRingOne.peek().getDirection();
+
+
+            botRingCurrentColor = controlRing.stateRingTwo.peek().getColor(); 
+            botRingCurrentDirection = controlRing.stateRingTwo.peek().getDirection();
+
             System.out.println(controlRing.stateRingOne.peek().getDirection() + " " + controlRing.stateRingOne.peek().getColor());
-            
-
             System.out.println(controlRing.stateRingTwo.peek().getDirection() + " " + controlRing.stateRingTwo.peek().getColor());
-
 
             controlRing.stateRingOne.cycle();
             controlRing.stateRingTwo.cycle();

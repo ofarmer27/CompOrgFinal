@@ -12,7 +12,6 @@ public class StateControlRing
     public SinglePhaseRing stateRingOne;
     public SinglePhaseRing stateRingTwo;
 
-
     public StateControlRing(String stateSequenceOne, String stateSequenceTwo)
     {
         initializeStateQueues(stateSequenceOne, stateSequenceTwo);
@@ -30,6 +29,11 @@ public class StateControlRing
             numberOfLights += 2;
         }
     }
+
+    // public char determineTrafficPriority()
+    // {
+
+    // }
 
 
 }

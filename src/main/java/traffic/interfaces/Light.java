@@ -68,13 +68,18 @@ public class Light
             case '6':
                 return "WB";
             case '7':
-                return "SBLT"; 
+                return "SBLT";
             case '8':
                 return "NB";
             default:
                 return "invalid phase";
         }
 
+    }
+    
+    public void simulateTraffic()
+    {
+        sensor.simulateReadSensor();
     }
 
 }
