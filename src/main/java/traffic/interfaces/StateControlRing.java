@@ -9,31 +9,37 @@ public class StateControlRing
     public int numberOfLights;
     public int timer; 
 
-    public SinglePhaseRing stateRingOne;
-    public SinglePhaseRing stateRingTwo;
+    public SinglePhaseRing[] rings;
 
-    public StateControlRing(String stateSequenceOne, String stateSequenceTwo)
+    public StateControlRing(String[] stateSequences)
     {
-        initializeStateQueues(stateSequenceOne, stateSequenceTwo);
+        rings = new SinglePhaseRing[2];
+        initializeStateQueues(stateSequences);
+
     }
     
-    public void initializeStateQueues(String stateSequenceOne, String stateSequenceTwo) 
+    public void initializeStateQueues(String[] stateSequences) 
     {
-        stateRingOne = new SinglePhaseRing();
-        stateRingTwo = new SinglePhaseRing();
+        rings[0] = new SinglePhaseRing();
+        rings[1] = new SinglePhaseRing();
 
-        for (int i = 0; i < stateSequenceOne.length(); i++) {
-
-            stateRingOne.enqueue(new Light(stateSequenceOne.charAt(i)));
-            stateRingTwo.enqueue(new Light(stateSequenceTwo.charAt(i)));
-            numberOfLights += 2;
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < stateSequences[0].length(); j++) {
+                rings[0].enqueue(new Light(stateSequences[i].charAt(j)));
+            }
         }
     }
-
-    // public char determineTrafficPriority()
-    // {
-
-    // }
-
+    
+    public void syncRingsAtNextBarrier()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            while(rings[i].peek().getDirection() != "BARRIER")
+            {
+                rings[i].cycle();
+            }
+            rings[i].cycle();
+        }
+    }
 
 }

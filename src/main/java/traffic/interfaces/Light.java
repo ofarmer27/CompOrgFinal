@@ -4,6 +4,7 @@ package traffic.interfaces;
 // 
 public class Light
 {
+
     String direction; // N,S,E,W
     String color; // R,Y,G
     char ID; 
@@ -15,10 +16,18 @@ public class Light
     public Light(char ID)
     {
         sensor = new TrafficSensor();
-
-        this.ID = ID; 
-        this.color = "red";
-        setDirectionByLetter(ID);
+        if (ID != 'a')
+        {
+            this.ID = ID; 
+            this.color = "red";
+            setDirectionByLetter(ID);
+        }
+        else
+        {
+            this.ID = 'a'; 
+            this.color = null;
+            setDirectionByLetter(ID);
+        }
         
     }
 
@@ -37,7 +46,10 @@ public class Light
     // sets color or "state" of the light. Red, Yellow, or Green
     public void setColor(String color)
     {
-        this.color = color;
+        if (ID != 'a')
+        {
+            this.color = color;
+        }
     }
 
     public String getDirection()

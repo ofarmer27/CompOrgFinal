@@ -9,7 +9,7 @@ public class TrafficSensor
      * a predetermined speed
      */
 
-     public TrafficSensor()
+    public TrafficSensor()
     {
         carQueue = new LinkedQueue<Integer>();
     }
