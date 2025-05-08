@@ -1,6 +1,7 @@
 package traffic.model;
+import traffic.controller.ApplicationDriver;
 import traffic.interfaces.StateControlRing;
-
+import traffic.controller.ApplicationDriver; 
 public class LightController {
     // char arrays that indicate traffic pattern
     final String GREEN = "green";
@@ -30,13 +31,13 @@ public class LightController {
     {
 
         controlRing = new StateControlRing(stateSequences);
-        greenLightLength = 55;
+        greenLightLength = 60;
         yellowLightLength = 5;
     }
 
-    public void startCycle(int greenLightLength) 
+    public void startCycle()
     {
-        this.greenLightLength = greenLightLength;
+        
         controlRing.rings[0].peek().setColor("green");
         controlRing.rings[1].peek().setColor("green");
 
@@ -96,6 +97,7 @@ public class LightController {
                 if (timers[i] > greenLightLength)
                 {
                     controlRing.rings[i].peek().setColor("yellow");
+                    ApplicationDriver.TrafficLightPanel.color = "yellow"; 
                 }
                 else if (timers[i] > greenLightLength + yellowLightLength)
                 {
@@ -110,14 +112,9 @@ public class LightController {
 
     }
     
-    
-
-    
-    
     private void testPrint() 
     {
         controlRing.printRingQueues();
         System.out.println();
-        
     }
 }
