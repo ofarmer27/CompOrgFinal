@@ -1,5 +1,10 @@
 package traffic.model;
+import java.awt.Color;
+
+import javax.swing.SwingUtilities;
+
 import traffic.controller.ApplicationDriver;
+import traffic.controller.ApplicationDriver.TrafficLightPanel;
 import traffic.interfaces.StateControlRing;
 import traffic.controller.ApplicationDriver; 
 public class LightController {
@@ -31,7 +36,7 @@ public class LightController {
     {
 
         controlRing = new StateControlRing(stateSequences);
-        greenLightLength = 60;
+        greenLightLength = 5;
         yellowLightLength = 5;
     }
 
@@ -40,12 +45,18 @@ public class LightController {
         
         controlRing.rings[0].peek().setColor("green");
         controlRing.rings[1].peek().setColor("green");
-
-        while (true) {
+        changeGUILightColorByID(controlRing.rings[0].peek().getDirection(), Color.GREEN);
+        changeGUILightColorByID(controlRing.rings[1].peek().getDirection(), Color.GREEN);
+        
+        while (ApplicationDriver.isRunning) {
             updateLights();
             testPrint();
             waitFor(1);
             incrementTimers();
+            if (ApplicationDriver.isRunning == false)
+            {
+                System.out.println("EXIT");
+            }
         }
     }
     
@@ -81,7 +92,6 @@ public class LightController {
 
     public void updateLights()
     {
-        simulateSensors();
 
         topRingCurrentColor = controlRing.rings[0].peek().getColor();
         topRingCurrentDirection = controlRing.rings[0].peek().getDirection();
@@ -94,15 +104,23 @@ public class LightController {
             for (int i = 0; i < 2; i++) // for each light
             {
                 // if green light up 
-                if (timers[i] > greenLightLength)
+                if (timers[i] < greenLightLength)
+                {
+                    controlRing.rings[i].peek().setColor("green");
+                    changeGUILightColorByID(controlRing.rings[i].peek().getDirection(), Color.GREEN);
+
+                }
+                else if (timers[i] == greenLightLength && timers[i] < greenLightLength + yellowLightLength)
                 {
                     controlRing.rings[i].peek().setColor("yellow");
-                    ApplicationDriver.TrafficLightPanel.color = "yellow"; 
-                }
-                else if (timers[i] > greenLightLength + yellowLightLength)
+                    changeGUILightColorByID(controlRing.rings[i].peek().getDirection(), Color.YELLOW);
+                }   
+                else if (timers[i] == greenLightLength + yellowLightLength)
                 {
                     controlRing.rings[i].peek().setColor("red");
+                    changeGUILightColorByID(controlRing.rings[i].peek().getDirection(), Color.RED);
                     controlRing.rings[i].cycle();
+                    timers[i] = 0;
                 }
             }
         } else 
@@ -112,6 +130,20 @@ public class LightController {
 
     }
     
+    public void changeGUILightColorByID(String ID, Color color)
+    {
+        for (TrafficLightPanel light : ApplicationDriver.lights)
+        {
+            if(light.getID().equals(ID))
+            {
+                SwingUtilities.invokeLater(() -> 
+                {
+                    light.changeLightColor(color);
+                });
+            }
+        }
+    }
+
     private void testPrint() 
     {
         controlRing.printRingQueues();
